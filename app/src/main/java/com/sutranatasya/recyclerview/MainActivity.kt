@@ -1,7 +1,11 @@
 package com.sutranatasya.recyclerview
 
+import android.app.Dialog
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sutranatasya.recyclerview.adapter.AdapterTeamBola
@@ -25,11 +29,34 @@ class MainActivity : AppCompatActivity() {
             Pemain("Zinedine Yazid Zidane", R.drawable.zidan, "Pelatih", "1.85 m", "Marseille, Prancis", "23 Juni 1972")
         )
 
-        binding.list.adapter =
-            AdapterTeamBola(listPemain, object : AdapterTeamBola.OnClickListener {
-                override fun detailData(item: Pemain) {
-                    TODO("Not yet implemented")
-                }
-            })
+        binding.list.layoutManager = LinearLayoutManager(this)
+
+        binding.list.adapter = AdapterTeamBola(listPemain, object : AdapterTeamBola.OnClickListener {
+            override fun detailData(item: Pemain) {
+
+                Dialog(this@MainActivity).apply {
+                    requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    setCancelable(true)
+                    setContentView(R.layout.detail_data_pemain)
+
+                    val image = findViewById<ImageView>(R.id.image_pemain)
+                    val nama = findViewById<TextView>(R.id.txtNamaPemain)
+                    val posisi = findViewById<TextView>(R.id.txtPosisi)
+                    val tinggi = findViewById<TextView>(R.id.txtTinggi)
+                    val tempatlahir = findViewById<TextView>(R.id.txtTempatLahir)
+                    val tgllahir = findViewById<TextView>(R.id.txtTglLahir)
+                    val btn = findViewById<Button>(R.id.btnClose)
+
+                    image.setImageResource(item.foto)
+                    nama.text = item.nama
+                    posisi.text = item.posisi
+                    tinggi.text = item.tinggi
+                    tempatlahir.text = item.tempatlahir
+                    tgllahir.text = item.tgllahir
+
+                    btn.setOnClickListener { dismiss() }
+                }.show()
+            }
+        })
     }
 }

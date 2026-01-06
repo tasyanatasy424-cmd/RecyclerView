@@ -1,7 +1,10 @@
 package com.sutranatasya.recyclerview
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
@@ -21,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 🔴 WAJIB: set Toolbar supaya menu muncul
+        setSupportActionBar(binding.toolbar)
+
         val listPemain = listOf(
             Pemain("Thibaut Courtois", R.drawable.courtois, "Penjaga Gawang", "2.00 m", "Bree, Belgia", "11 Mei 1992"),
             Pemain("Karim Benzema", R.drawable.benzema, "Penyerang", "1.85 m", "Lyon, Prancis", "19 Desember 1987"),
@@ -33,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.list.adapter = AdapterTeamBola(listPemain, object : AdapterTeamBola.OnClickListener {
             override fun detailData(item: Pemain) {
-
                 Dialog(this@MainActivity).apply {
                     requestWindowFeature(Window.FEATURE_NO_TITLE)
                     setCancelable(true)
@@ -58,5 +63,22 @@ class MainActivity : AppCompatActivity() {
                 }.show()
             }
         })
+    }
+
+    // ✅ JANGAN return super
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    // ✅ Tangkap klik menu dengan benar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.myprofile -> {
+                startActivity(Intent(this, Profile::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

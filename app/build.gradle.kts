@@ -52,4 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //implementasi Recyclerview
     implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    //circular image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 }
